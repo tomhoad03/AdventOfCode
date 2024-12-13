@@ -29,6 +29,7 @@ public class day2 {
                 // Check for tolerated safe reports
                 for (int i = 0; i < levels.size(); i++) {
                     ArrayList<Integer> faultedLevels = new ArrayList<>(levels);
+                    // noinspection SuspiciousListRemoveInLoop
                     faultedLevels.remove(i);
 
                     if (isReportSafe(faultedLevels)) {
