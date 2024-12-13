@@ -45,7 +45,7 @@ public class day2 {
         System.out.println("Safe report count: " + safeReportCount);
         assertEquals(680, safeReportCount);
 
-        // Part 2 Answer - 680
+        // Part 2 Answer - 710
         System.out.println("Tolerated safe report count: " + (safeReportCount + toleratedSafeReportCount));
         assertEquals(710, safeReportCount + toleratedSafeReportCount);
     }
