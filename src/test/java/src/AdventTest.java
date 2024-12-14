@@ -56,6 +56,15 @@ public class AdventTest {
     }
 
     @Test
+    void Day6_Test() {
+        long startTime = System.nanoTime();
+        Day6 day6 = new Day6();
+        long stopTime = System.nanoTime();
+        System.out.println("Day 6 execution time: " + ((stopTime - startTime) / 100000000D));
+        assertEquals(5177, day6.getDistinctCount());
+        // assertEquals(1686, day6.getObstructionCount());
+    }
+  
     void Day7_Test() {
         long startTime = System.nanoTime();
         Day7 day7 = new Day7();
