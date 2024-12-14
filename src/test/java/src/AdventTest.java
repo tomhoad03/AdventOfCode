@@ -54,4 +54,13 @@ public class AdventTest {
         assertEquals(4957, day5.getMiddleNumberCount());
         assertEquals(6938, day5.getIncorrectMiddleNumberCount());
     }
+
+    @Test
+    void Day6_Test() {
+        long startTime = System.nanoTime();
+        Day6 day6 = new Day6();
+        long stopTime = System.nanoTime();
+        System.out.println("Day 6 execution time: " + ((stopTime - startTime) / 100000000D));
+        assertEquals(5177, day6.getDistinctCount());
+    }
 }
