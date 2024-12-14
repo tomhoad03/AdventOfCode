@@ -1,8 +1,6 @@
 package src;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.Arrays;
 
 public class Day6 {
@@ -108,17 +106,17 @@ public class Day6 {
     private void obstructions(int guardI, int guardJ, int gridHeight, int gridWidth, Character[][] grid, DIRECTION direction) {
         grid[guardI][guardJ] = '^';
         for (int i = guardI + 1; i < grid.length; i++) {
-            if (grid[i][guardJ - 1] == '#') {
+            if (grid[i][guardJ] == '#') {
                 break;
-            } else if (grid[i][guardJ - 1] == '.') {
-                grid[i][guardJ - 1] = '^';
+            } else if (grid[i][guardJ] == '.') {
+                grid[i][guardJ] = '^';
             }
         }
 
         while (guardI != 0 && guardJ != 0 && guardI != gridHeight - 1 && guardJ != gridWidth - 1) {
             if (direction == DIRECTION.NORTH) {
                 if (guardI - 2 >= 0 && grid[guardI - 2][guardJ] == '#') {
-                    grid[guardI - 1][guardJ] = '+';
+                    grid[guardI - 1][guardJ] = 'X';
                     direction = DIRECTION.EAST;
                     for (int j = guardJ - 1; j >= 0; j--) {
                         if (grid[guardI - 1][j] == '#') {
@@ -137,12 +135,12 @@ public class Day6 {
                 guardI--;
             } else if (direction == DIRECTION.EAST) {
                 if (guardJ + 2 < grid[0].length && grid[guardI][guardJ + 2] == '#') {
-                    grid[guardI][guardJ + 1] = '+';
+                    grid[guardI][guardJ + 1] = 'X';
                     direction = DIRECTION.SOUTH;
                     for (int i = guardI - 1; i >= 0; i--) {
                         if (grid[i][guardJ + 1] == '#') {
                             break;
-                        } else if (grid[i][guardJ - 1] == '.') {
+                        } else if (grid[i][guardJ + 1] == '.') {
                             grid[i][guardJ + 1] = 'V';
                         }
                     }
@@ -156,7 +154,7 @@ public class Day6 {
                 guardJ++;
             } else if (direction == DIRECTION.SOUTH) {
                 if (guardI + 2 < grid.length && grid[guardI + 2][guardJ] == '#') {
-                    grid[guardI + 1][guardJ] = '+';
+                    grid[guardI + 1][guardJ] = 'X';
                     direction = DIRECTION.WEST;
                     for (int j = guardJ + 1; j < grid[0].length; j++) {
                         if (grid[guardI + 1][j] == '#') {
@@ -175,7 +173,7 @@ public class Day6 {
                 guardI++;
             } else {
                 if (guardJ - 2 >= 0 && grid[guardI][guardJ - 2] == '#') {
-                    grid[guardI][guardJ - 1] = '+';
+                    grid[guardI][guardJ - 1] = 'X';
                     direction = DIRECTION.NORTH;
                     for (int i = guardI + 1; i < grid.length; i++) {
                         if (grid[i][guardJ - 1] == '#') {
@@ -193,6 +191,17 @@ public class Day6 {
                 }
                 guardJ--;
             }
+        }
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("src/main/resources/Day6-X.txt"))) {
+            for (int i = 0; i < gridHeight; i++) {
+                for (int j = 0; j < gridWidth; j++) {
+                    writer.write(grid[i][j]);
+                }
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            System.out.println("File not found!");
         }
     }
 
