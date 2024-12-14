@@ -1,23 +1,22 @@
 package src;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+public class Day2 {
+    int safeReportCount = 0;
+    int toleratedSafeReportCount = 0;
 
-public class day2 {
-    public static void main(String[] args) {
-        int safeReportCount = 0;
-        int toleratedSafeReportCount = 0;
-
+    public Day2() {
         // Read the input reports
         try {
-            Scanner myReader = new Scanner(new File("src/main/resources/day2.txt"));
-            while (myReader.hasNextLine()) {
-                ArrayList<Integer> levels = Arrays.stream(myReader.nextLine().split(" "))
+            Scanner scanner = new Scanner(new File("src/main/resources/Day2.txt"));
+            while (scanner.hasNextLine()) {
+                ArrayList<Integer> levels = Arrays.stream(scanner.nextLine().split(" "))
                         .map(Integer::parseInt)
                         .collect(Collectors.toCollection(ArrayList::new));
 
@@ -38,17 +37,10 @@ public class day2 {
                     }
                 }
             }
-        } catch (java.io.FileNotFoundException e) {
+            scanner.close();
+        } catch (FileNotFoundException e) {
             System.out.println("File not found!");
         }
-
-        // Part 1 Answer - 680
-        System.out.println("Safe report count: " + safeReportCount);
-        assertEquals(680, safeReportCount);
-
-        // Part 2 Answer - 710
-        System.out.println("Tolerated safe report count: " + (safeReportCount + toleratedSafeReportCount));
-        assertEquals(710, safeReportCount + toleratedSafeReportCount);
     }
 
     private static boolean isReportSafe(ArrayList<Integer> levels) {
@@ -78,4 +70,14 @@ public class day2 {
     }
 
     enum DIRECTION {INCREASING, DECREASING, NONE}
+
+    public int getSafeReportCount() {
+        System.out.println("Safe report count: " + safeReportCount);
+        return safeReportCount;
+    }
+
+    public int getToleratedSafeReportCount() {
+        System.out.println("Tolerated safe report count: " + (safeReportCount + toleratedSafeReportCount));
+        return safeReportCount + toleratedSafeReportCount;
+    }
 }
