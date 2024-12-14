@@ -3,9 +3,11 @@ package src;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Arrays;
 
 public class Day6 {
     int distinctCount = 1;
+    int obstructionCount = 0;
 
     public Day6() {
         int gridHeight = 0, gridWidth = 0;
@@ -40,6 +42,9 @@ public class Day6 {
 
         int guardI = -1, guardJ = -1;
         DIRECTION direction = DIRECTION.NORTH;
+        Character[][] grid2 = Arrays.stream(grid)
+                .map(Character[]::clone)
+                .toArray(Character[][]::new);
 
         // Find the guard
         outerLoop:
@@ -53,6 +58,14 @@ public class Day6 {
             }
         }
 
+        // Find the number of distinct positions
+        distinctPositions(guardI, guardJ, gridHeight, gridWidth, grid, direction);
+
+        // Find the number of obstructions
+        obstructions(guardI, guardJ, gridHeight, gridWidth, grid2, direction);
+    }
+
+    private void distinctPositions(int guardI, int guardJ, int gridHeight, int gridWidth, Character[][] grid, DIRECTION direction) {
         while (guardI != 0 && guardJ != 0 && guardI != gridHeight - 1 && guardJ != gridWidth - 1) {
             grid[guardI][guardJ] = 'X';
 
@@ -61,10 +74,7 @@ public class Day6 {
                     distinctCount++;
                 }
                 if (guardI - 2 >= 0 && grid[guardI - 2][guardJ] == '#') {
-                    grid[guardI - 1][guardJ] = '>';
                     direction = DIRECTION.EAST;
-                } else {
-                    grid[guardI - 1][guardJ] = '^';
                 }
                 guardI--;
             } else if (direction == DIRECTION.EAST) {
@@ -72,10 +82,7 @@ public class Day6 {
                     distinctCount++;
                 }
                 if (guardJ + 2 < grid[0].length && grid[guardI][guardJ + 2] == '#') {
-                    grid[guardI][guardJ + 1] = 'V';
                     direction = DIRECTION.SOUTH;
-                } else {
-                    grid[guardI][guardJ + 1] = '>';
                 }
                 guardJ++;
             } else if (direction == DIRECTION.SOUTH) {
@@ -83,10 +90,7 @@ public class Day6 {
                     distinctCount++;
                 }
                 if (guardI + 2 < grid.length && grid[guardI + 2][guardJ] == '#') {
-                    grid[guardI + 1][guardJ] = '<';
                     direction = DIRECTION.WEST;
-                } else {
-                    grid[guardI + 1][guardJ] = 'V';
                 }
                 guardI++;
             } else {
@@ -94,10 +98,98 @@ public class Day6 {
                     distinctCount++;
                 }
                 if (guardJ - 2 >= 0 && grid[guardI][guardJ - 2] == '#') {
-                    grid[guardI][guardJ - 1] = '^';
                     direction = DIRECTION.NORTH;
-                } else {
-                    grid[guardI][guardJ - 1] = '<';
+                }
+                guardJ--;
+            }
+        }
+    }
+
+    private void obstructions(int guardI, int guardJ, int gridHeight, int gridWidth, Character[][] grid, DIRECTION direction) {
+        grid[guardI][guardJ] = '^';
+        for (int i = guardI + 1; i < grid.length; i++) {
+            if (grid[i][guardJ - 1] == '#') {
+                break;
+            } else if (grid[i][guardJ - 1] == '.') {
+                grid[i][guardJ - 1] = '^';
+            }
+        }
+
+        while (guardI != 0 && guardJ != 0 && guardI != gridHeight - 1 && guardJ != gridWidth - 1) {
+            if (direction == DIRECTION.NORTH) {
+                if (guardI - 2 >= 0 && grid[guardI - 2][guardJ] == '#') {
+                    grid[guardI - 1][guardJ] = '+';
+                    direction = DIRECTION.EAST;
+                    for (int j = guardJ - 1; j >= 0; j--) {
+                        if (grid[guardI - 1][j] == '#') {
+                            break;
+                        } else if (grid[guardI - 1][j] == '.') {
+                            grid[guardI - 1][j] = '>';
+                        }
+                    }
+                } else if (grid[guardI - 1][guardJ] == '>') {
+                    grid[guardI - 1][guardJ] = '+';
+                    obstructionCount++;
+                }
+                if (grid[guardI][guardJ] == '.') {
+                    grid[guardI][guardJ] = '^';
+                }
+                guardI--;
+            } else if (direction == DIRECTION.EAST) {
+                if (guardJ + 2 < grid[0].length && grid[guardI][guardJ + 2] == '#') {
+                    grid[guardI][guardJ + 1] = '+';
+                    direction = DIRECTION.SOUTH;
+                    for (int i = guardI - 1; i >= 0; i--) {
+                        if (grid[i][guardJ + 1] == '#') {
+                            break;
+                        } else if (grid[i][guardJ - 1] == '.') {
+                            grid[i][guardJ + 1] = 'V';
+                        }
+                    }
+                } else if (grid[guardI][guardJ + 1] == 'V') {
+                    grid[guardI][guardJ + 1] = '+';
+                    obstructionCount++;
+                }
+                if (grid[guardI][guardJ] == '.') {
+                    grid[guardI][guardJ] = '>';
+                }
+                guardJ++;
+            } else if (direction == DIRECTION.SOUTH) {
+                if (guardI + 2 < grid.length && grid[guardI + 2][guardJ] == '#') {
+                    grid[guardI + 1][guardJ] = '+';
+                    direction = DIRECTION.WEST;
+                    for (int j = guardJ + 1; j < grid[0].length; j++) {
+                        if (grid[guardI + 1][j] == '#') {
+                            break;
+                        } else if (grid[guardI + 1][j] == '.') {
+                            grid[guardI + 1][j] = '<';
+                        }
+                    }
+                } else if (grid[guardI + 1][guardJ] == '<') {
+                    grid[guardI + 1][guardJ] = '+';
+                    obstructionCount++;
+                }
+                if (grid[guardI][guardJ] == '.') {
+                    grid[guardI][guardJ] = 'V';
+                }
+                guardI++;
+            } else {
+                if (guardJ - 2 >= 0 && grid[guardI][guardJ - 2] == '#') {
+                    grid[guardI][guardJ - 1] = '+';
+                    direction = DIRECTION.NORTH;
+                    for (int i = guardI + 1; i < grid.length; i++) {
+                        if (grid[i][guardJ - 1] == '#') {
+                            break;
+                        } else if (grid[i][guardJ - 1] == '.') {
+                            grid[i][guardJ - 1] = '^';
+                        }
+                    }
+                } else if (grid[guardI][guardJ - 1] == '^') {
+                    grid[guardI][guardJ - 1] = '+';
+                    obstructionCount++;
+                }
+                if (grid[guardI][guardJ] == '.') {
+                    grid[guardI][guardJ] = '<';
                 }
                 guardJ--;
             }
@@ -106,6 +198,10 @@ public class Day6 {
 
     public int getDistinctCount() {
         return distinctCount;
+    }
+
+    public int getObstructionCount() {
+        return obstructionCount;
     }
 
     enum DIRECTION {

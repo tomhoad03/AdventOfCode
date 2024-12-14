@@ -62,5 +62,6 @@ public class AdventTest {
         long stopTime = System.nanoTime();
         System.out.println("Day 6 execution time: " + ((stopTime - startTime) / 100000000D));
         assertEquals(5177, day6.getDistinctCount());
+        assertEquals(411, day6.getObstructionCount());
     }
 }
