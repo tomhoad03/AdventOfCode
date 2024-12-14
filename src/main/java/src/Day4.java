@@ -1,9 +1,9 @@
 package src;
 
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Scanner;
 import java.util.stream.Collectors;
 
 public class Day4 {
@@ -25,13 +25,14 @@ public class Day4 {
         ArrayList<ArrayList<Character>> grid = new ArrayList<>();
 
         // Read the word search
-        try (Scanner scanner = new Scanner(new File("src/main/resources/Day4.txt"))) {
-            while (scanner.hasNextLine()) {
-                grid.add(scanner.nextLine().chars()
+        try (BufferedReader reader = new BufferedReader(new FileReader("src/main/resources/Day4.txt"))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                grid.add(line.chars()
                         .mapToObj(c -> (char) c)
                         .collect(Collectors.toCollection(ArrayList::new)));
             }
-        } catch (FileNotFoundException e) {
+        } catch (IOException e) {
             System.out.println("File not found!");
         }
 
@@ -50,7 +51,7 @@ public class Day4 {
                     int mCount = 0, sCount = 0;
                     StringBuilder currentString = new StringBuilder();
 
-                    for (int k = 1; k < 8; k = k+2) {
+                    for (int k = 1; k < 8; k = k + 2) {
                         int endI = i + xmasDirections[k][0];
                         int endJ = j + xmasDirections[k][1];
 

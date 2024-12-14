@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class MainTest {
+public class AdventTest {
     @Test
     void Day1_Test() {
         long startTime = System.nanoTime();
@@ -43,5 +43,13 @@ public class MainTest {
         System.out.println("Day 4 execution time: " + ((stopTime - startTime) / 100000000D));
         assertEquals(2532, day4.getXmasSearchCount());
         assertEquals(1941, day4.getMasSearchCount());
+    }
+
+    @Test
+    void Day5_Test() {
+        long startTime = System.nanoTime();
+        Day5 day5 = new Day5();
+        long stopTime = System.nanoTime();
+        System.out.println("Day 5 execution time: " + ((stopTime - startTime) / 100000000D));
     }
 }

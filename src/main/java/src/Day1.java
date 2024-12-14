@@ -1,11 +1,11 @@
 package src;
 
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Scanner;
 import java.util.stream.IntStream;
 
 public class Day1 {
@@ -18,9 +18,10 @@ public class Day1 {
         ArrayList<Integer> listB = new ArrayList<>();
 
         // Read the input lists
-        try (Scanner scanner = new Scanner(new File("src/main/resources/Day1.csv"))) {
-            while (scanner.hasNextLine()) {
-                String[] values = scanner.nextLine().split(",");
+        try (BufferedReader reader = new BufferedReader(new FileReader("src/main/resources/Day1.txt"))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] values = line.split(",");
                 int valueA = Integer.parseInt(values[0]);
                 int valueB = Integer.parseInt(values[1]);
 
@@ -29,7 +30,7 @@ public class Day1 {
 
                 mapB.put(valueB, mapB.getOrDefault(valueB, 0) + 1);
             }
-        } catch (FileNotFoundException e) {
+        } catch (IOException e) {
             System.out.println("File not found!");
         }
 

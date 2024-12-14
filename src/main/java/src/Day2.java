@@ -1,10 +1,10 @@
 package src;
 
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Scanner;
 import java.util.stream.Collectors;
 
 public class Day2 {
@@ -13,9 +13,10 @@ public class Day2 {
 
     public Day2() {
         // Read the input reports
-        try (Scanner scanner = new Scanner(new File("src/main/resources/Day2.txt"))) {
-            while (scanner.hasNextLine()) {
-                ArrayList<Integer> levels = Arrays.stream(scanner.nextLine().split(" "))
+        try (BufferedReader reader = new BufferedReader(new FileReader("src/main/resources/Day2.txt"))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                ArrayList<Integer> levels = Arrays.stream(line.split(" "))
                         .map(Integer::parseInt)
                         .collect(Collectors.toCollection(ArrayList::new));
 
@@ -36,7 +37,7 @@ public class Day2 {
                     }
                 }
             }
-        } catch (FileNotFoundException e) {
+        } catch (IOException e) {
             System.out.println("File not found!");
         }
     }
@@ -67,8 +68,6 @@ public class Day2 {
         return true;
     }
 
-    enum DIRECTION {INCREASING, DECREASING, NONE}
-
     public int getSafeReportCount() {
         return safeReportCount;
     }
@@ -76,4 +75,6 @@ public class Day2 {
     public int getToleratedSafeReportCount() {
         return safeReportCount + toleratedSafeReportCount;
     }
+
+    enum DIRECTION {INCREASING, DECREASING, NONE}
 }

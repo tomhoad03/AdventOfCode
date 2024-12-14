@@ -1,8 +1,8 @@
 package src;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -14,11 +14,12 @@ public class Day3 {
         StringBuilder corruptedMemory = new StringBuilder();
 
         // Read the corrupted memory
-        try (Scanner scanner = new Scanner(new File("src/main/resources/Day3.txt"))) {
-            while (scanner.hasNextLine()) {
-                corruptedMemory.append(scanner.nextLine());
+        try (BufferedReader reader = new BufferedReader(new FileReader("src/main/resources/Day3.txt"))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                corruptedMemory.append(line);
             }
-        } catch (FileNotFoundException e) {
+        } catch (IOException e) {
             System.out.println("File not found!");
         }
 
