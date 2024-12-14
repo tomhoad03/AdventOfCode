@@ -1,13 +1,12 @@
 package src;
 
-import java.io.File;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Scanner;
 import java.util.stream.Collectors;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-public class day4 {
+public class Day4 {
     static int[][] xmasDirections = {
             {0, 1},
             {1, 1},
@@ -19,21 +18,21 @@ public class day4 {
             {-1, 1}
     };
     static String searchString = "XMAS";
+    int xmasSearchCount;
+    int masSearchCount;
 
-    public static void main(String[] args) {
+    public Day4() {
         ArrayList<ArrayList<Character>> grid = new ArrayList<>();
-        int xmasSearchCount = 0;
-        int masSearchCount = 0;
 
         // Read the word search
-        try {
-            Scanner myReader = new Scanner(new File("src/main/resources/day4.txt"));
-            while (myReader.hasNextLine()) {
-                grid.add(myReader.nextLine().chars()
+        try (BufferedReader reader = new BufferedReader(new FileReader("src/main/resources/Day4.txt"))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                grid.add(line.chars()
                         .mapToObj(c -> (char) c)
                         .collect(Collectors.toCollection(ArrayList::new)));
             }
-        } catch (java.io.FileNotFoundException e) {
+        } catch (IOException e) {
             System.out.println("File not found!");
         }
 
@@ -52,7 +51,7 @@ public class day4 {
                     int mCount = 0, sCount = 0;
                     StringBuilder currentString = new StringBuilder();
 
-                    for (int k = 1; k < 8; k = k+2) {
+                    for (int k = 1; k < 8; k = k + 2) {
                         int endI = i + xmasDirections[k][0];
                         int endJ = j + xmasDirections[k][1];
 
@@ -69,20 +68,11 @@ public class day4 {
                         }
                     }
                     if (mCount == 2 && sCount == 2 && !currentString.toString().equals("SMSM") && !currentString.toString().equals("MSMS")) {
-                        System.out.println(currentString);
                         masSearchCount++;
                     }
                 }
             }
         }
-
-        // Part 1 Answer - 2532
-        System.out.println("Xmas search Count: " + xmasSearchCount);
-        assertEquals(2532, xmasSearchCount);
-
-        // Part 2 Answer - 1941
-        System.out.println("Mas search Count: " + masSearchCount);
-        assertEquals(1941, masSearchCount);
     }
 
     private static boolean checkXmasStringMatch(ArrayList<ArrayList<Character>> grid, int i, int j, int di, int dj) {
@@ -101,5 +91,13 @@ public class day4 {
 
         // Check if the string is found
         return foundString.toString().equals(searchString);
+    }
+
+    public int getXmasSearchCount() {
+        return xmasSearchCount;
+    }
+
+    public int getMasSearchCount() {
+        return masSearchCount;
     }
 }

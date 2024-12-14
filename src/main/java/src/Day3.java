@@ -1,24 +1,25 @@
 package src;
 
-import java.io.File;
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+public class Day3 {
+    int mulTotal;
+    int doMulTotal;
 
-public class day3 {
-    public static void main(String[] args) {
+    public Day3() {
         StringBuilder corruptedMemory = new StringBuilder();
-        int mulTotal = 0;
 
         // Read the corrupted memory
-        try {
-            Scanner myReader = new Scanner(new File("src/main/resources/day3.txt"));
-            while (myReader.hasNextLine()) {
-                corruptedMemory.append(myReader.nextLine());
+        try (BufferedReader reader = new BufferedReader(new FileReader("src/main/resources/Day3.txt"))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                corruptedMemory.append(line);
             }
-        } catch (java.io.FileNotFoundException e) {
+        } catch (IOException e) {
             System.out.println("File not found!");
         }
 
@@ -33,12 +34,6 @@ public class day3 {
             mulTotal += valueA * valueB;
         }
 
-        // Part 1 Answer - 166905464
-        System.out.println("Multiply Total: " + mulTotal);
-        assertEquals(166905464, mulTotal);
-
-        mulTotal = 0;
-
         // Create the mul(A,B) regex
         matcher = pattern.matcher(corruptedMemory.toString().replaceAll("don't\\(\\).*?(do\\(\\)|$)", ""));
 
@@ -46,11 +41,15 @@ public class day3 {
         while (matcher.find()) {
             int valueA = Integer.parseInt(matcher.group(1));
             int valueB = Integer.parseInt(matcher.group(2));
-            mulTotal += valueA * valueB;
+            doMulTotal += valueA * valueB;
         }
+    }
 
-        // Part 2 Answer - 72948684
-        System.out.println("Multiply Total: " + mulTotal);
-        assertEquals(72948684, mulTotal);
+    public int getMulTotal() {
+        return mulTotal;
+    }
+
+    public int getDoMulTotal() {
+        return doMulTotal;
     }
 }

@@ -1,23 +1,22 @@
 package src;
 
-import java.io.File;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Scanner;
 import java.util.stream.Collectors;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+public class Day2 {
+    int safeReportCount = 0;
+    int toleratedSafeReportCount = 0;
 
-public class day2 {
-    public static void main(String[] args) {
-        int safeReportCount = 0;
-        int toleratedSafeReportCount = 0;
-
+    public Day2() {
         // Read the input reports
-        try {
-            Scanner myReader = new Scanner(new File("src/main/resources/day2.txt"));
-            while (myReader.hasNextLine()) {
-                ArrayList<Integer> levels = Arrays.stream(myReader.nextLine().split(" "))
+        try (BufferedReader reader = new BufferedReader(new FileReader("src/main/resources/Day2.txt"))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                ArrayList<Integer> levels = Arrays.stream(line.split(" "))
                         .map(Integer::parseInt)
                         .collect(Collectors.toCollection(ArrayList::new));
 
@@ -38,17 +37,9 @@ public class day2 {
                     }
                 }
             }
-        } catch (java.io.FileNotFoundException e) {
+        } catch (IOException e) {
             System.out.println("File not found!");
         }
-
-        // Part 1 Answer - 680
-        System.out.println("Safe report count: " + safeReportCount);
-        assertEquals(680, safeReportCount);
-
-        // Part 2 Answer - 710
-        System.out.println("Tolerated safe report count: " + (safeReportCount + toleratedSafeReportCount));
-        assertEquals(710, safeReportCount + toleratedSafeReportCount);
     }
 
     private static boolean isReportSafe(ArrayList<Integer> levels) {
@@ -75,6 +66,14 @@ public class day2 {
             currentLevel = levels.get(i);
         }
         return true;
+    }
+
+    public int getSafeReportCount() {
+        return safeReportCount;
+    }
+
+    public int getToleratedSafeReportCount() {
+        return safeReportCount + toleratedSafeReportCount;
     }
 
     enum DIRECTION {INCREASING, DECREASING, NONE}
