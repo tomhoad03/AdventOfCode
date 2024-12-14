@@ -13,8 +13,7 @@ public class Day2 {
 
     public Day2() {
         // Read the input reports
-        try {
-            Scanner scanner = new Scanner(new File("src/main/resources/Day2.txt"));
+        try (Scanner scanner = new Scanner(new File("src/main/resources/Day2.txt"))) {
             while (scanner.hasNextLine()) {
                 ArrayList<Integer> levels = Arrays.stream(scanner.nextLine().split(" "))
                         .map(Integer::parseInt)
@@ -37,7 +36,6 @@ public class Day2 {
                     }
                 }
             }
-            scanner.close();
         } catch (FileNotFoundException e) {
             System.out.println("File not found!");
         }
@@ -72,12 +70,10 @@ public class Day2 {
     enum DIRECTION {INCREASING, DECREASING, NONE}
 
     public int getSafeReportCount() {
-        System.out.println("Safe report count: " + safeReportCount);
         return safeReportCount;
     }
 
     public int getToleratedSafeReportCount() {
-        System.out.println("Tolerated safe report count: " + (safeReportCount + toleratedSafeReportCount));
         return safeReportCount + toleratedSafeReportCount;
     }
 }

@@ -14,10 +14,9 @@ public class Day3 {
         StringBuilder corruptedMemory = new StringBuilder();
 
         // Read the corrupted memory
-        try {
-            Scanner myReader = new Scanner(new File("src/main/resources/Day3.txt"));
-            while (myReader.hasNextLine()) {
-                corruptedMemory.append(myReader.nextLine());
+        try (Scanner scanner = new Scanner(new File("src/main/resources/Day3.txt"))) {
+            while (scanner.hasNextLine()) {
+                corruptedMemory.append(scanner.nextLine());
             }
         } catch (FileNotFoundException e) {
             System.out.println("File not found!");
@@ -46,12 +45,10 @@ public class Day3 {
     }
 
     public int getMulTotal() {
-        System.out.println("Multiply Total: " + mulTotal);
         return mulTotal;
     }
 
     public int getDoMulTotal() {
-        System.out.println("Do Multiply Total: " + doMulTotal);
         return doMulTotal;
     }
 }
