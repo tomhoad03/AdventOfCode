@@ -51,5 +51,6 @@ public class AdventTest {
         Day5 day5 = new Day5();
         long stopTime = System.nanoTime();
         System.out.println("Day 5 execution time: " + ((stopTime - startTime) / 100000000D));
+        assertEquals(4957, day5.getMiddleNumberCount());
     }
 }
