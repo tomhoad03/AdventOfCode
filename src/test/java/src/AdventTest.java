@@ -82,5 +82,6 @@ public class AdventTest {
         long stopTime = System.nanoTime();
         System.out.println("Day 8 execution time: " + ((stopTime - startTime) / 1000000000D));
         assertEquals(256, day8.getUniqueAntinodes());
+        assertEquals(1005, day8.getUniqueExtendedAntinodes());
     }
 }
