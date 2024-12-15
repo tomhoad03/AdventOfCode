@@ -64,7 +64,8 @@ public class AdventTest {
         assertEquals(5177, day6.getDistinctCount());
         // assertEquals(1686, day6.getObstructionCount());
     }
-  
+
+    @Test
     void Day7_Test() {
         long startTime = System.nanoTime();
         Day7 day7 = new Day7();
@@ -72,5 +73,15 @@ public class AdventTest {
         System.out.println("Day 7 execution time: " + ((stopTime - startTime) / 1000000000D));
         assertEquals(2299996598890L, day7.getTotalCalibrationResult());
         assertEquals(362646859298554L, day7.getConcatTotalCalibrationResult());
+    }
+
+    @Test
+    void Day8_Test() {
+        long startTime = System.nanoTime();
+        Day8 day8 = new Day8();
+        long stopTime = System.nanoTime();
+        System.out.println("Day 8 execution time: " + ((stopTime - startTime) / 1000000000D));
+        assertEquals(256, day8.getUniqueAntinodes());
+        assertEquals(1005, day8.getUniqueExtendedAntinodes());
     }
 }
